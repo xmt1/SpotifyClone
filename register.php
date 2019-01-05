@@ -1,9 +1,16 @@
 <?php 
   include('includes/classes/Account.php');
+  include('includes/classes/Constants.php');
   $account = new Account();
   
   include('includes/handlers/register-handler.php');
   include('includes/handlers/login-handler.php');
+
+  function getInputValue($name) {
+    if (isset($_POST[$name])) {
+      echo $_POST[$name];
+    }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +27,11 @@
       <h2>Login to your account</h2>
       <div>
         <label for="loginUsername">Username</label>
-        <input type="text" id="loginUsername" name="loginUsername" required>
+        <input 
+          type="text" 
+          id="loginUsername" 
+          name="loginUsername"
+          required>
       </div>
       <div>
         <label for="loginPassword">Password</label>
@@ -33,41 +44,74 @@
     <form id="registerForm" action="register.php" method="POST">
       <h2>Create your free account</h2>
       <div>
-        <?php echo $account->getError("Your username must be between 5 and 25 characters"); ?>
+        <?php echo $account->getError(Constants::$userNameCharacters); ?>
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <input 
+          type="text" 
+          id="username" 
+          name="username"
+          value="<?php getInputValue('username'); ?>" 
+          required>
       </div>
       <div>
-        <?php echo $account->getError("Your first name must be between 2 and 25 characters"); ?>
+        <?php echo $account->getError(Constants::$firstNameCharacters); ?>
         <label for="firstName">First Name</label>
-        <input type="text" id="firstName" name="firstName" required>
+        <input 
+          type="text" 
+          id="firstName" 
+          name="firstName"
+          value="<?php getInputValue('firstName'); ?>"
+          required>
       </div>
       <div>
-        <?php echo $account->getError("Your last name must be between 2 and 25 characters"); ?>
+        <?php echo $account->getError(Constants::$lastNameCharacters); ?>
         <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName" required>
+        <input 
+          type="text" 
+          id="lastName" 
+          name="lastName"
+          value="<?php getInputValue('lastName'); ?>"
+          required>
       </div>
       <div>
-        <?php echo $account->getError("Your emails don't match"); ?>
-        <?php echo $account->getError("Email is invalid"); ?>
+        <?php echo $account->getError(Constants::$emailsDoNotMatch); ?>
+        <?php echo $account->getError(Constants::$emailInvalid); ?>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <input 
+          type="email" 
+          id="email" 
+          name="email"
+          value="<?php getInputValue('email'); ?>" 
+          required>
       </div>
       <div>
         <label for="email2">Confirm Email</label>
-        <input type="email" id="email2" name="email2" required>
+        <input 
+          type="email" 
+          id="email2" 
+          name="email2"
+          value="<?php getInputValue('email2'); ?>" 
+          required>
       </div>
 
       <div>
-        <?php echo $account->getError("Your passwords don't match"); ?>
-        <?php echo $account->getError("Your passwords can only contain numbers and letters"); ?>
-        <?php echo $account->getError("Your password must be between 5 and 30 characters"); ?>
+        <?php echo $account->getError(Constants::$passwordsDoNotMatch); ?>
+        <?php echo $account->getError(Constants::$passwordNotAlphaNumeric); ?>
+        <?php echo $account->getError(Constants::$passwordCharacters); ?>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input 
+          type="password" 
+          id="password" 
+          name="password"
+          required>
       </div>
       <div>
         <label for="password2">Confirm Password</label>
-        <input type="password" id="password2" name="password2" required>
+        <input 
+          type="password" 
+          id="password2" 
+          name="password2"
+          required>
       </div>
       <button type="submit" name="registerButton">Sign Up</button>
     </form>
